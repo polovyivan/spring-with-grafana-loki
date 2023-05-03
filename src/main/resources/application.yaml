@@ -1,0 +1,21 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /spring-with-grafana-loki
+
+logging:
+  file:
+    path: ./src/main/resources/docker-compose/logs
+    name: ./src/main/resources/docker-compose/logs/spring-with-grafana-loki.log
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+        transaction: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

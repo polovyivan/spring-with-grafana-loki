@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:9.3.8
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+     - ./grafana:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    networks:
+      - grafana-network
+
+  loki:
+    container_name: loki
+    image: grafana/loki:2.8.1
+    restart: always
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - grafana-network
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.8.1
+    restart: always
+    volumes:
+      - ./promtail:/etc/promtail
+      - ./logs:/var/log
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    networks:
+      - grafana-network
+
+networks:
+ grafana-network:
