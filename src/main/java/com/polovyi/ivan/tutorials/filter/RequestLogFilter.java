@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,43 +32,43 @@ public class RequestLogFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
-
         chain.doFilter(requestWrapper, responseWrapper);
-
         logRequest(requestWrapper);
         logResponse(responseWrapper);
     }
 
     @SneakyThrows
     private void logRequest(ContentCachingRequestWrapper request) {
-
-        log.info("API: {}", request.getMethod() + request.getRequestURI());
         String parameters = parametersToString(request.getParameterMap());
-        if (StringUtils.isNotBlank(parameters)) {
-            log.info("Parameters: \n{}", parameters);
-        }
         String headers = headersToString(Collections.list(request.getHeaderNames()), request::getHeader);
-
-        if (StringUtils.isNotBlank(headers)) {
-            log.info("Headers: \n{}", headers);
-        }
         String body = new String(request.getContentAsByteArray());
-        if (StringUtils.isNotBlank(body)) {
-            log.info("Body: \n{}", body);
-        }
+        Map<String, String> logMap = new LinkedHashMap<>() {{
+            put("\nParameters:", parameters);
+            put("\nHeaders:", headers);
+            put("\nBody:", body);
+        }};
+        String logString = joinMapIntoString(logMap);
+        log.info("\nREQUEST:\nAPI: {}", request.getMethod() + request.getRequestURI() + logString);
     }
-
 
     private void logResponse(ContentCachingResponseWrapper response) throws IOException {
         String headers = headersToString(response.getHeaderNames(), response::getHeader);
-        if (StringUtils.isNotBlank(headers)) {
-            log.info("Headers: \n{}", headers);
-        }
         String body = new String(response.getContentAsByteArray());
-        if (StringUtils.isNotBlank(body)) {
-            log.info("Body: \n{}", body);
-        }
+        Map<String, String> logMap = new LinkedHashMap<>() {{
+            put("\nStatus", String.valueOf(response.getStatus()));
+            put("\nHeaders:", headers);
+            put("\nBody:", body);
+        }};
+        String logString = joinMapIntoString(logMap);
+        log.info("\nRESPONSE: {}", logString);
         response.copyBodyToResponse();
+    }
+
+    private static String joinMapIntoString(Map<String, String> logMap) {
+        return logMap.entrySet().stream()
+                .filter(e -> StringUtils.isNotBlank(e.getValue()))
+                .map(e -> String.join(" ", e.getKey(), e.getValue()))
+                .collect(Collectors.joining(""));
     }
 
     @SneakyThrows
@@ -82,5 +83,4 @@ public class RequestLogFilter extends GenericFilterBean {
                 .map(param -> String.join("=", param.getKey(), Arrays.toString(param.getValue())))
                 .collect(Collectors.joining("\n"));
     }
-
 }
