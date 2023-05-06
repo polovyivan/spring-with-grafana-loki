@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "fda889b7-45a3-4b38-8799-52524f727a8d",
+		"name": "spring-with-grafana-loki",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9825253"
+	},
+	"item": [
+		{
+			"name": "customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customers/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers/:customerId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers",
+						":customerId"
+					],
+					"variable": [
+						{
+							"key": "customerId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customers-with-filters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers-with-filters?fullName=Ivan Polovyi&phoneNumber=893-087-1038&createdAt=2016-01-30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers-with-filters"
+					],
+					"query": [
+						{
+							"key": "fullName",
+							"value": "Ivan Polovyi"
+						},
+						{
+							"key": "phoneNumber",
+							"value": "893-087-1038"
+						},
+						{
+							"key": "createdAt",
+							"value": "2016-01-30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":3,\n    \"fullName\": \"Ivan Polovyi\",\n    \"phoneNumber\": \"831.259.2365\",\n    \"address\": \"Apt. 843 399 Lachelle Crossing, New Eldenhaven, LA 63962-9260\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customers",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"=Ivan\",\n    \"phoneNumber\": \"=931.259.2365\",\n    \"address\": \"=Bpt. 843 399 Lachelle Crossing, New Eldenhaven, LA 63962-9260\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers/:customerId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers",
+						":customerId"
+					],
+					"variable": [
+						{
+							"key": "customerId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customers",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"931.259.2365\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers/:customerId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers",
+						":customerId"
+					],
+					"query": [
+						{
+							"key": "fullName",
+							"value": "Rueben Purdy",
+							"disabled": true
+						},
+						{
+							"key": "phoneNumber",
+							"value": "893-087-1038",
+							"disabled": true
+						},
+						{
+							"key": "createdAt",
+							"value": "2016-01-30",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "customerId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customers",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/spring-with-grafana-loki/v1/customers/:customerId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"spring-with-grafana-loki",
+						"v1",
+						"customers",
+						":customerId"
+					],
+					"variable": [
+						{
+							"key": "customerId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
